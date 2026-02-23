@@ -1,41 +1,580 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Fresh Corner Bodega</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bodega Grill • Fruit • Deli</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f7f7f7;
-      text-align: center;
-      padding: 20px;
+    :root{
+      --bg: #0b1020;
+      --card: rgba(255,255,255,0.08);
+      --card2: rgba(255,255,255,0.06);
+      --text: #eef2ff;
+      --muted: rgba(238,242,255,0.75);
+      --line: rgba(255,255,255,0.12);
+      --accent: #22c55e;   /* green */
+      --accent2:#f97316;   /* orange */
+      --accent3:#38bdf8;   /* sky */
+      --danger:#ef4444;
+      --shadow: 0 14px 40px rgba(0,0,0,0.35);
+      --radius: 18px;
     }
-    .flyer {
-      background: white;
-      padding: 20px;
-      border: 4px solid #2ecc71;
-      max-width: 600px;
-      margin: auto;
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      color: var(--text);
+      background:
+        radial-gradient(1200px 800px at 20% -10%, rgba(34,197,94,0.35), transparent 55%),
+        radial-gradient(900px 700px at 105% 10%, rgba(249,115,22,0.28), transparent 55%),
+        radial-gradient(900px 700px at 50% 115%, rgba(56,189,248,0.20), transparent 55%),
+        linear-gradient(180deg, #070a14 0%, var(--bg) 100%);
+      min-height:100vh;
     }
-    h1 { color: #27ae60; }
-    .menu { text-align: left; }
-    .item { display: flex; justify-content: space-between; }
+
+    a{ color:inherit; text-decoration:none; }
+    .wrap{
+      width: min(1100px, 92vw);
+      margin: 0 auto;
+      padding: 22px 0 60px;
+    }
+
+    /* Top bar */
+    .top{
+      display:flex;
+      gap:14px;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom: 18px;
+    }
+    .pill{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      padding:10px 14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,0.06);
+      border-radius: 999px;
+      backdrop-filter: blur(10px);
+    }
+    .dot{
+      width:10px;height:10px;border-radius:999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(34,197,94,0.18);
+    }
+    .small{
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.25;
+    }
+
+    /* Hero */
+    .hero{
+      position: relative;
+      border-radius: calc(var(--radius) + 10px);
+      border:1px solid var(--line);
+      background: linear-gradient(135deg, rgba(34,197,94,0.18), rgba(249,115,22,0.14), rgba(56,189,248,0.12));
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+    }
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(700px 280px at 10% 20%, rgba(34,197,94,0.25), transparent 60%),
+        radial-gradient(520px 240px at 80% 20%, rgba(249,115,22,0.22), transparent 60%),
+        radial-gradient(520px 240px at 60% 90%, rgba(56,189,248,0.18), transparent 60%);
+      pointer-events:none;
+      filter: blur(4px);
+    }
+    .heroInner{
+      position:relative;
+      padding: 24px 22px;
+      display:grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 14px;
+      align-items: start;
+    }
+    h1{
+      margin:0 0 6px;
+      font-size: clamp(28px, 3vw, 40px);
+      letter-spacing: 0.3px;
+    }
+    .tagline{
+      margin:0 0 14px;
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 62ch;
+    }
+    .badges{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top: 8px;
+    }
+    .badge{
+      padding:8px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,0.08);
+      border:1px solid var(--line);
+      font-size: 13px;
+      color: var(--text);
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+    }
+    .badge b{
+      color: white;
+      font-weight: 700;
+    }
+
+    .ctaCard{
+      border-radius: var(--radius);
+      border:1px solid var(--line);
+      background: rgba(0,0,0,0.22);
+      padding: 14px;
+      backdrop-filter: blur(12px);
+    }
+    .ctaTitle{
+      font-weight: 800;
+      margin:0 0 6px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .ctaTitle .spark{
+      width:12px;height:12px;border-radius:4px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      transform: rotate(12deg);
+      box-shadow: 0 10px 18px rgba(34,197,94,0.18);
+    }
+    .ctaRow{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin-top: 10px;
+    }
+    .btn{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:12px 12px;
+      border-radius: 14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,0.08);
+      transition: transform .12s ease, background .12s ease;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,0.11); }
+    .btn strong{ font-size: 14px; }
+    .btn span{ color: var(--muted); font-size: 13px; }
+
+    /* Sections */
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+    @media (max-width: 900px){
+      .heroInner{ grid-template-columns: 1fr; }
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    .panel{
+      border-radius: var(--radius);
+      border:1px solid var(--line);
+      background: var(--card);
+      box-shadow: 0 10px 26px rgba(0,0,0,0.25);
+      overflow:hidden;
+    }
+    .panelHeader{
+      padding: 14px 14px 10px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02));
+      border-bottom: 1px solid var(--line);
+      display:flex;
+      align-items: baseline;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .panelHeader h2{
+      margin:0;
+      font-size: 16px;
+      letter-spacing: .2px;
+    }
+    .panelHeader .note{
+      font-size: 12.5px;
+      color: var(--muted);
+    }
+
+    .menu{
+      padding: 10px 14px 14px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .item{
+      display:grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      padding: 10px 10px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,0.08);
+      background: rgba(0,0,0,0.15);
+    }
+    .item:hover{
+      border-color: rgba(255,255,255,0.16);
+      background: rgba(0,0,0,0.20);
+    }
+    .itemTitle{
+      font-weight: 800;
+      font-size: 14px;
+      margin:0 0 3px;
+    }
+    .itemDesc{
+      margin:0;
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.3;
+    }
+    .price{
+      font-weight: 900;
+      font-size: 14px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(34,197,94,0.14);
+      border:1px solid rgba(34,197,94,0.25);
+      height: fit-content;
+      align-self: start;
+      white-space: nowrap;
+    }
+    .price.orange{
+      background: rgba(249,115,22,0.14);
+      border-color: rgba(249,115,22,0.25);
+    }
+    .price.sky{
+      background: rgba(56,189,248,0.12);
+      border-color: rgba(56,189,248,0.22);
+    }
+
+    /* Specials strip */
+    .specials{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+    @media (max-width: 900px){
+      .specials{ grid-template-columns: 1fr; }
+    }
+    .special{
+      border-radius: var(--radius);
+      border:1px solid var(--line);
+      background: var(--card2);
+      padding: 14px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+    }
+    .special h3{
+      margin:0 0 6px;
+      font-size: 15px;
+      display:flex; gap:10px; align-items:center;
+    }
+    .chip{
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,0.07);
+      color: var(--muted);
+      width: fit-content;
+    }
+
+    /* Footer */
+    .footer{
+      margin-top: 18px;
+      border-radius: var(--radius);
+      border:1px solid var(--line);
+      background: rgba(255,255,255,0.06);
+      padding: 14px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      color: var(--muted);
+    }
+    .footer b{ color: var(--text); }
   </style>
 </head>
-<body>
-  <div class="flyer">
-    <h1>Fresh Corner Bodega</h1>
-    <p>Hot Food • Snacks • Drinks • Open 24/7</p>
 
-    <h2>Menu</h2>
-    <div class="menu">
-      <div class="item"><span>Bacon Egg & Cheese</span><span>$4.99</span></div>
-      <div class="item"><span>Chopped Cheese</span><span>$6.99</span></div>
-      <div class="item"><span>Chicken Over Rice</span><span>$7.99</span></div>
-      <div class="item"><span>Coffee</span><span>$1.50</span></div>
+<body>
+  <div class="wrap">
+
+    <div class="top">
+      <div class="pill">
+        <span class="dot"></span>
+        <div class="small"><b>Open Daily</b> • Fast service • Fresh made</div>
+      </div>
+      <div class="pill small">Takeout • Delivery • Catering</div>
     </div>
 
-    <p>📍 123 Main St</p>
-    <p>☎️ (555) 123-4567</p>
+    <section class="hero">
+      <div class="heroInner">
+        <div>
+          <h1>Bodega Grill • Fruit • Deli</h1>
+          <p class="tagline">
+            Fresh fruit cups, smoothies, breakfast sandwiches, hot plates, and deli classics — made quick and made right.
+          </p>
+
+          <div class="badges">
+            <div class="badge">🥪 <b>Hot & Cold Deli</b></div>
+            <div class="badge">🍓 <b>Fresh Fruit</b></div>
+            <div class="badge">☕ <b>Coffee & Drinks</b></div>
+            <div class="badge">🔥 <b>Grill All Day</b></div>
+          </div>
+        </div>
+
+        <div class="ctaCard">
+          <p class="ctaTitle"><span class="spark"></span> Order / Info</p>
+          <div class="ctaRow">
+            <a class="btn" href="tel:+15551234567">
+              <strong>Call Now</strong>
+              <span>(555) 123-4567</span>
+            </a>
+            <div class="btn" style="cursor:default">
+              <strong>Address</strong>
+              <span>123 Main St</span>
+            </div>
+            <div class="btn" style="cursor:default">
+              <strong>Hours</strong>
+              <span>Mon–Sun: 6AM–11PM</span>
+            </div>
+          </div>
+          <p class="small" style="margin:10px 2px 0;">
+            Tip: Replace the phone/address/hours with yours.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Specials -->
+    <section class="specials">
+      <div class="special">
+        <h3>🔥 Daily Special</h3>
+        <div class="chip">Ask at the counter</div>
+        <p class="small" style="margin:10px 0 0;">Hot plate + drink combo available.</p>
+      </div>
+      <div class="special">
+        <h3>🍍 Fresh Fruit Cups</h3>
+        <div class="chip">Made to order</div>
+        <p class="small" style="margin:10px 0 0;">Mango, pineapple, watermelon, grapes & more.</p>
+      </div>
+      <div class="special">
+        <h3>🥤 Smoothies</h3>
+        <div class="chip">Add protein +$</div>
+        <p class="small" style="margin:10px 0 0;">Strawberry banana, mango, mixed berry, green.</p>
+      </div>
+    </section>
+
+    <section class="grid">
+
+      <!-- Breakfast -->
+      <div class="panel">
+        <div class="panelHeader">
+          <h2>Breakfast</h2>
+          <div class="note">All day</div>
+        </div>
+        <div class="menu">
+          <div class="item">
+            <div>
+              <p class="itemTitle">Bacon, Egg & Cheese</p>
+              <p class="itemDesc">On roll / hero • salt, pepper, ketchup optional</p>
+            </div>
+            <div class="price">$4.99</div>
+          </div>
+          <div class="item">
+            <div>
+              <p class="itemTitle">Sausage, Egg & Cheese</p>
+              <p class="itemDesc">Classic deli style • add hashbrown +$</p>
+            </div>
+            <div class="price">$4.99</div>
+          </div>
+          <div class="item">
+            <div>
+              <p class="itemTitle">Turkey Egg White Wrap</p>
+              <p class="itemDesc">Light + high protein</p>
+            </div>
+            <div class="price sky">$6.49</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grill / Hot Food -->
+      <div class="panel">
+        <div class="panelHeader">
+          <h2>Grill & Hot Food</h2>
+          <div class="note">Fresh off the grill</div>
+        </div>
+        <div class="menu">
+          <div class="item">
+            <div>
+              <p class="itemTitle">Chopped Cheese</p>
+              <p class="itemDesc">Lettuce, tomato, onion, cheese • add bacon +$</p>
+            </div>
+            <div class="price orange">$6.99</div>
+          </div>
+          <div class="item">
+            <div>
+              <p class="itemTitle">Chicken Over Rice</p>
+              <p class="itemDesc">White/Hot sauce • salad on side</p>
+            </div>
+            <div class="price orange">$7.99</div>
+          </div>
+          <div class="item">
+            <div>
+              <p class="itemTitle">Cheeseburger Combo</p>
+              <p class="itemDesc">Fries + can soda</p>
+            </div>
+            <div class="price orange">$9.49</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Deli Sandwiches -->
+      <div class="panel">
+        <div class="panelHeader">
+          <h2>Deli Sandwiches</h2>
+          <div class="note">Hot / Cold</div>
+        </div>
+        <div class="menu">
+          <div class="item">
+            <div>
+              <p class="itemTitle">Turkey & Provolone</p>
+              <p class="itemDesc">Lettuce, tomato, mayo, oil & vinegar</p>
+            </div>
+            <div class="price">$7.49</div>
+          </div>
+          <div class="item">
+            <div>
+              <p class="itemTitle">Italian Hero</p>
+              <p class="itemDesc">Ham, salami, pepperoni • banana peppers</p>
+            </div>
+            <div class="price">$8.49</div>
+          </div>
+          <div class="item">
+            <div>
+              <p class="itemTitle">Tuna Salad</p>
+              <p class="itemDesc">Fresh mixed • on roll/hero/wrap</p>
+            </div>
+            <div class="price sky">$7.49</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fruit & Smoothies -->
+      <div class="panel">
+        <div class="panelHeader">
+          <h2>Fruit & Smoothies</h2>
+          <div class="note">Fresh cut</div>
+        </div>
+        <div class="menu">
+          <div class="item">
+            <div>
+              <p class="itemTitle">Fruit Cup (Small / Large)</p>
+              <p class="itemDesc">Mix seasonal fruit • tajín optional</p>
+            </div>
+            <div class="price">$4.50 / $6.50</div>
+          </div>
+          <div class="item">
+            <div>
+              <p class="itemTitle">Strawberry Banana Smoothie</p>
+              <p class="itemDesc">Real fruit • add protein +$</p>
+            </div>
+            <div class="price sky">$6.99</div>
+          </div>
+          <div class="item">
+            <div>
+              <p class="itemTitle">Green Smoothie</p>
+              <p class="itemDesc">Spinach, pineapple, banana</p>
+            </div>
+            <div class="price sky">$6.99</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Drinks -->
+      <div class="panel">
+        <div class="panelHeader">
+          <h2>Drinks</h2>
+          <div class="note">Cold + Hot</div>
+        </div>
+        <div class="menu">
+          <div class="item">
+            <div>
+              <p class="itemTitle">Coffee</p>
+              <p class="itemDesc">Regular / Decaf</p>
+            </div>
+            <div class="price">$1.50</div>
+          </div>
+          <div class="item">
+            <div>
+              <p class="itemTitle">Iced Coffee</p>
+              <p class="itemDesc">Sweetened on request</p>
+            </div>
+            <div class="price">$2.99</div>
+          </div>
+          <div class="item">
+            <div>
+              <p class="itemTitle">Water / Soda</p>
+              <p class="itemDesc">Ask for brands</p>
+            </div>
+            <div class="price">$1.50+</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Snacks -->
+      <div class="panel">
+        <div class="panelHeader">
+          <h2>Snacks & Sides</h2>
+          <div class="note">Quick bites</div>
+        </div>
+        <div class="menu">
+          <div class="item">
+            <div>
+              <p class="itemTitle">Fries</p>
+              <p class="itemDesc">Add cheese +$</p>
+            </div>
+            <div class="price orange">$3.49</div>
+          </div>
+          <div class="item">
+            <div>
+              <p class="itemTitle">Mozzarella Sticks</p>
+              <p class="itemDesc">Marinara on side</p>
+            </div>
+            <div class="price orange">$4.99</div>
+          </div>
+          <div class="item">
+            <div>
+              <p class="itemTitle">Chips & Candy</p>
+              <p class="itemDesc">Big selection</p>
+            </div>
+            <div class="price">$1.25+</div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <div class="footer">
+      <div>📍 <b>123 Main St</b> • ☎️ <b>(555) 123-4567</b></div>
+      <div>Menu/prices can change • Ask about catering • © <b>Bodega Grill Fruit & Deli</b></div>
+    </div>
+
   </div>
 </body>
 </html>
